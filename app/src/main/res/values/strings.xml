@@ -1,15 +1,14 @@
 <resources>
-    <string name="app_name">Gestionnaire de mot de passe</string>
+    <string name="app_name">Password Manager</string>
     <string name="email">email</string>
-    <string name="mot_de_passe">mot de passe</string>
-    <string name="connexion">Connexion</string>
-    <string name="cr_er_un_compte">Créer compte</string>
-    <string name="bienvenue">Bienvenue</string>
-    <string name="or">ou créer un compte :</string>
-    <string name="auth">authentification réussie</string>
-    <string name="retour">Retour</string>
-    <string name="nouveau_compte">Ajouter un compte</string>
-    <string name="site">Site web</string>
-    <string name="ajouter">Ajouter</string>
+    <string name="mot_de_passe">password</string>
+    <string name="connexion">Login</string>
+    <string name="cr_er_un_compte">Sign-in</string>
+    <string name="bienvenue">Welcome</string>
+    <string name="auth">authentification OK</string>
+    <string name="nouveau_compte">Add an account</string>
+    <string name="site">Website</string>
+    <string name="ajouter">Add</string>
     <string name="plus">+</string>
+    <string name="rafraichir">Refresh</string>
 </resources>

@@ -29,7 +29,7 @@
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/site"
-        android:inputType="textPassword"
+        android:inputType="text"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

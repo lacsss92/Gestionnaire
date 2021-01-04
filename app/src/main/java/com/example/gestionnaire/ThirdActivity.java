@@ -9,6 +9,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,6 +23,8 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Objects;
 
 public class ThirdActivity extends AppCompatActivity {
     private SQLiteDatabase db;
@@ -41,7 +48,7 @@ public class ThirdActivity extends AppCompatActivity {
         openDB();
     }
 
-    public void openDB() throws SQLiteException {
+        public void openDB() throws SQLiteException {
         try {
             db = obj.getWritableDatabase();
         } catch (SQLiteException ex) {
@@ -77,10 +84,10 @@ public class ThirdActivity extends AppCompatActivity {
 
         // Test to see if the insertion was ok
         if (rowId == -1) {
-            Toast.makeText(this, "Erreur lors de l'enregistrement de la nouvelle association email/mot de passe.",
+            Toast.makeText(this, "Error while saving email/password association.",
                     Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Nouvelle association email/mot de passe enregistrée.",
+            Toast.makeText(this, "New email/password assocition registered.",
                     Toast.LENGTH_SHORT).show();
         }
     }

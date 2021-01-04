@@ -8,6 +8,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,13 +22,18 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 public class SecondActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private DatabaseHelper obj;
     private TextView Site;
     private TextView Email;
     private TextView Mdp;
-
+    private SensorManager mSensorManager;
+    private float mAccel;
+    private float mAccelCurrent;
+    private float mAccelLast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +42,12 @@ public class SecondActivity extends AppCompatActivity {
         Site = (TextView) findViewById(R.id.textViewSite);
         Email = (TextView) findViewById(R.id.textViewEmail);
         Mdp = (TextView) findViewById(R.id.textViewMdp);
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        mAccel = 10f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
 
         obj = new DatabaseHelper(this, obj.dbName, null, obj.dbVersion);
 
@@ -40,6 +55,40 @@ public class SecondActivity extends AppCompatActivity {
 
         queryComptesData();
 
+    }
+
+    private final SensorEventListener mSensorListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            mAccelLast = mAccelCurrent;
+            mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
+            float delta = mAccelCurrent - mAccelLast;
+            mAccel = mAccel * 0.9f + delta;
+            if (mAccel > 12) {
+                //starting incognito mode
+                Intent intent = new Intent("org.chromium.chrome.browser.incognito.OPEN_PRIVATE_TAB");
+                startActivity(intent);
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        super.onResume();
+    }
+    @Override
+    protected void onPause() {
+        mSensorManager.unregisterListener(mSensorListener);
+        super.onPause();
     }
 
     public void openDB() throws SQLiteException {
@@ -126,10 +175,10 @@ public class SecondActivity extends AppCompatActivity {
                 count++;
             } while (cursor.moveToNext());
             Toast.makeText(this,
-                    "Nombre de comptes sauvegardés dans le gestionnaire : " + count,
+                    "Number of accounts saved in the manager : " + count,
                     Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Aucun compte sauvegardé dans le gestionnaire.", Toast.LENGTH_SHORT)
+            Toast.makeText(this, "No account saved in the manager.", Toast.LENGTH_SHORT)
                     .show();
         }
     }

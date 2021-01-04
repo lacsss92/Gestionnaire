@@ -103,10 +103,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Test to see if the insertion was ok
         if (rowId == -1) {
-            Toast.makeText(this, "Erreur lors de l'enregistrement de la nouvelle association email/mot de passe.",
+            Toast.makeText(this, "Error while saving email/password association.",
                     Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "Compte initialisé.",
+            Toast.makeText(this, "Account initialized.",
                     Toast.LENGTH_LONG).show();
         }
         return rowId;
@@ -179,22 +179,22 @@ public class MainActivity extends AppCompatActivity {
                 emailbdd = cursor.getString(indexEmail);
                 mdpbdd = cursor.getString(indexMdp);
                 if (Email.isEmpty() || Password.isEmpty() ){
-                    Toast.makeText(this, "Email ou mot de passe vide.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Empty email or password.", Toast.LENGTH_SHORT).show();
                 }
                 if (Email.matches(emailbdd)){
                     if (Password.matches(mdpbdd)){
-                        Toast.makeText(this, "Connexion réussie.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Connection successful.", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this, SecondActivity.class));
                     }
                 }
                 else {
-                    Toast.makeText(this, "Email ou mot de passe incorrect.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Incorrect email or password.", Toast.LENGTH_SHORT).show();
                 }
                 //Toast.makeText(this,"Récupérer l'élément :" + email + "," + mdp + " ("+ ")", Toast.LENGTH_LONG).show();
                 count++;
             } while (cursor.moveToNext());
         } else {
-            Toast.makeText(this, "Aucun compte défini, créez-en un.", Toast.LENGTH_SHORT)
+            Toast.makeText(this, "No account defined, create one.", Toast.LENGTH_SHORT)
                     .show();
         }
     }
@@ -209,10 +209,10 @@ public class MainActivity extends AppCompatActivity {
         String Email = email.getText().toString();
         String Password = password.getText().toString();
         if (Email.isEmpty() || Password.isEmpty() ){
-            Toast.makeText(this, "Email ou mot de passe vide.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Empty email or password.", Toast.LENGTH_SHORT).show();
         }
         if (!Email.contains("@") ){
-            Toast.makeText(this, "Format de l'email incorrect.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Incorrect email format.", Toast.LENGTH_SHORT).show();
         }
         else {
             // Insert a new record
